@@ -152,16 +152,11 @@ if 'conversation_history' not in st.session_state:
 # Create a text input for user prompt
 prompt = st.text_input("Type your message here...😊")  # Add a small emoji here
 
-# Create columns for buttons
-col1, col2 = st.columns([1, 1])
+# Create a column for the Submit button only
+col1 = st.columns(1)
 
-with col1:
-    # Speak button
-    speak_text = st.button("voice🎙️", key="speak_button", help="Click to speak the text.")
-
-with col2:
-    # Submit button
-    submit_text = st.button("Submit", key="submit_button", help="Click to submit your text.")
+# Submit button
+submit_text = col1.button("Submit", key="submit_button", help="Click to submit your text.")
 
 # Handle the submit button for text input
 if submit_text and prompt:
@@ -175,24 +170,13 @@ if submit_text and prompt:
     
     st.markdown(f"**You:** {prompt}")
     st.markdown(f"**Bot:** {response}")
+    
+    # Optionally, speak the response if desired
+    # If you still want the functionality to speak the response, keep this line
     speak_response(response)  # Function to speak the bot's response
 
+# Note: Removed the audio input handling logic related to the speak button
 
-# Handle the speak button for audio input
-if speak_text:
-    audio_input = get_audio_input()
-    if audio_input:
-        response = generate_response(audio_input)
-        st.session_state.conversation_history.append({"prompt": audio_input, "response": response})
-        
-        # Extract names from the response and display them
-        names = extract_names(response)
-        if names:
-            st.markdown(f"**Names Found:** {', '.join(names)}")
-        
-        st.markdown(f"**You:** {audio_input}")
-        st.markdown(f"**Bot:** {response}")
-        speak_response(response)
 
 # Display the response audio after each interaction
 with st.sidebar:
