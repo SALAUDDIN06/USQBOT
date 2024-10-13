@@ -5,7 +5,6 @@ import speech_recognition as sr
 from gtts import gTTS
 from io import BytesIO
 import re  
-import pyaudio
 
 # Set page title and configuration
 st.set_page_config(page_title="University student Query-Bot", page_icon="🎓", layout="wide")
