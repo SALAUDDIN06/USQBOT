@@ -7,7 +7,7 @@ from io import BytesIO
 import re  
 
 # Set page title and configuration
-st.set_page_config(page_title="University student Query-Bot", page_icon="🎓", layout="wide")
+st.set_page_config(page_title="University Student Query-Bot", page_icon="🎓", layout="wide")
 
 # Set the API key in the environment variable
 os.environ["GOOGLE_API_KEY"] = "AIzaSyCR0gaNYWLJKAKwvKHQmbdeO5Za9CRC_j8"
@@ -123,9 +123,8 @@ st.markdown(
 # Title
 st.title("🎓 University Student Query-Bot")
 st.write("Ask me anything about the university!")
-st.write("You can ask about courses, facilities, events, or anything else related to the university")
+st.write("You can ask about courses, facilities, events, or anything else related to the university.")
 st.write("I'll do my best to help you!")
-
 
 # Store previous conversations in session state
 if 'conversation_history' not in st.session_state:
@@ -142,6 +141,7 @@ if st.session_state.conversation_history:
         st.markdown(f"**Bot:** {convo['response']}")
 else:
     st.write("No previous conversations yet.")
+
 # Initialize session state for conversation history if not already done
 if 'conversation_history' not in st.session_state:
     st.session_state.conversation_history = []
@@ -154,7 +154,7 @@ col1, col2 = st.columns([1, 1])
 
 with col1:
     # Speak button
-    speak_text = st.button("voice🎙️", key="speak_button", help="Click to speak the text.")
+    speak_text = st.button("Voice 🎙️", key="speak_button", help="Click to speak the text.")
 
 with col2:
     # Submit button
@@ -164,32 +164,16 @@ with col2:
 if submit_text and prompt:
     response = generate_response(prompt)  # Function to generate the bot's response
     st.session_state.conversation_history.append({"prompt": prompt, "response": response})
-    
-    # Extract names from the response and display them
-    names = extract_names(response)
-    if names:
-        st.markdown(f"**Names Found:** {', '.join(names)}")
-    
-    st.markdown(f"**You:** {prompt}")
-    st.markdown(f"**Bot:** {response}")
-    speak_response(response)  # Function to speak the bot's response
-
-
-# Handle the speak button for audio input
-if speak_text:
+    st.write(f"**Bot:** {response}")  # Display bot response
+    speak_response(response)  # Speak the response
+elif speak_text:
     audio_input = get_audio_input()
-    if audio_input:
+    if audio_input:  # Only generate a response if there is input
         response = generate_response(audio_input)
         st.session_state.conversation_history.append({"prompt": audio_input, "response": response})
-        
-        # Extract names from the response and display them
-        names = extract_names(response)
-        if names:
-            st.markdown(f"**Names Found:** {', '.join(names)}")
-        
-        st.markdown(f"**You:** {audio_input}")
-        st.markdown(f"**Bot:** {response}")
-        speak_response(response)
+        st.write(f"**Bot:** {response}")  # Display bot response
+        speak_response(response)  # Speak the response
+
 
 # Display the response audio after each interaction
 with st.sidebar:
