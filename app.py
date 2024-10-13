@@ -2,15 +2,14 @@ import os
 import streamlit as st
 import google.generativeai as genai
 import speech_recognition as sr
-import sounddevice as sd
-import wave
 from gtts import gTTS
 from io import BytesIO
 import re  
-import tempfile
 
 # Set page title and configuration
-st.set_page_config(page_title="University Student Query-Bot", page_icon="🎓", layout="wide")
+st.set_page_config(page_title="University student Query-Bot", page_icon="🎓", layout="wide")
+# Title
+st.title("🎓 University Student Query-Bot")
 
 # Set the API key in the environment variable
 os.environ["GOOGLE_API_KEY"] = "AIzaSyCR0gaNYWLJKAKwvKHQmbdeO5Za9CRC_j8"
@@ -73,29 +72,11 @@ def extract_names(text):
 
 # Function to get voice input
 def get_audio_input():
-    st.write("Press the record button to start speaking...")
-    # Recording settings
-    fs = 44100  # Sample rate
-    duration = 5  # seconds
-
-    # Record audio
-    audio_data = sd.rec(int(duration * fs), samplerate=fs, channels=1, dtype='int16')
-    sd.wait()  # Wait until recording is finished
-
-    # Save to a temporary WAV file
-    with tempfile.NamedTemporaryFile(delete=False, suffix='.wav') as temp_wav_file:
-        with wave.open(temp_wav_file.name, 'wb') as wf:
-            wf.setnchannels(1)
-            wf.setsampwidth(2)  # 16-bit audio
-            wf.setframerate(fs)
-            wf.writeframes(audio_data.tobytes())
-        temp_wav_path = temp_wav_file.name
-
-    # Use speech recognition
     recognizer = sr.Recognizer()
-    with sr.AudioFile(temp_wav_path) as source:
-        audio = recognizer.record(source)
-
+    with sr.Microphone() as source:
+        st.write("Listening...")
+        audio = recognizer.listen(source)
+    
     try:
         st.write("Recognizing...")
         user_input = recognizer.recognize_google(audio)
@@ -144,8 +125,9 @@ st.markdown(
 # Title
 st.title("🎓 University Student Query-Bot")
 st.write("Ask me anything about the university!")
-st.write("You can ask about courses, facilities, events, or anything else related to the university.")
+st.write("You can ask about courses, facilities, events, or anything else related to the university")
 st.write("I'll do my best to help you!")
+
 
 # Store previous conversations in session state
 if 'conversation_history' not in st.session_state:
@@ -162,32 +144,54 @@ if st.session_state.conversation_history:
         st.markdown(f"**Bot:** {convo['response']}")
 else:
     st.write("No previous conversations yet.")
-
 # Initialize session state for conversation history if not already done
 if 'conversation_history' not in st.session_state:
     st.session_state.conversation_history = []
 
 # Create a text input for user prompt
-prompt = st.text_input("Type your message here...", "")
+prompt = st.text_input("Type your message here...😊")  # Add a small emoji here
 
-# Button to get audio input
-if st.button("🎙️Speak"):
-    user_input = get_audio_input()
-else:
-    user_input = prompt
+# Create columns for buttons
+col1, col2 = st.columns([1, 1])
 
-# If user input is provided
-if user_input:
-    response_text = generate_response(user_input)
-    st.session_state.conversation_history.append({"prompt": user_input, "response": response_text})
+with col1:
+    # Speak button
+    speak_text = st.button("voice🎙️", key="speak_button", help="Click to speak the text.")
 
-    # Display the bot's response
-    st.markdown(f"**Bot:** {response_text}")
+with col2:
+    # Submit button
+    submit_text = st.button("Submit", key="submit_button", help="Click to submit your text.")
+
+# Handle the submit button for text input
+if submit_text and prompt:
+    response = generate_response(prompt)  # Function to generate the bot's response
+    st.session_state.conversation_history.append({"prompt": prompt, "response": response})
     
-    # Speak the response
-    speak_response(response_text)
+    # Extract names from the response and display them
+    names = extract_names(response)
+    if names:
+        st.markdown(f"**Names Found:** {', '.join(names)}")
+    
+    st.markdown(f"**You:** {prompt}")
+    st.markdown(f"**Bot:** {response}")
+    speak_response(response)  # Function to speak the bot's response
 
 
+# Handle the speak button for audio input
+if speak_text:
+    audio_input = get_audio_input()
+    if audio_input:
+        response = generate_response(audio_input)
+        st.session_state.conversation_history.append({"prompt": audio_input, "response": response})
+        
+        # Extract names from the response and display them
+        names = extract_names(response)
+        if names:
+            st.markdown(f"**Names Found:** {', '.join(names)}")
+        
+        st.markdown(f"**You:** {audio_input}")
+        st.markdown(f"**Bot:** {response}")
+        speak_response(response)
 
 # Display the response audio after each interaction
 with st.sidebar:
