@@ -5,6 +5,8 @@ import speech_recognition as sr
 from gtts import gTTS
 from io import BytesIO
 import re  
+import sounddevice as sd
+import numpy as np
 
 # Set page title and configuration
 st.set_page_config(page_title="University Student Query-Bot", page_icon="🎓", layout="wide")
@@ -30,30 +32,10 @@ model = genai.GenerativeModel(
 # Function to generate a response
 def generate_response(user_input):
     conversation_history = [
+        # Example conversation history
         "input: Malla Reddy University is located at?",
         "output: It is located in Hyderabad at Maisammaguda, Medchal District.",
-        "input: Who is the Vice Chancellor?",
-        "output: V.S.K Reddy",
-        "input: Who is the chairman for Malla Reddy University?",
-        "output: C.H Malla Reddy",
-        "input: Who is the Dean for the Data Science Department?",
-        "output: D.R Naveen Kumar",
-        "input: 3rd Year DS - faculty?",
-        "output: Faculty of MLDS: Ms. M. Shailaja, Faculty of MLDS Lab: Ms. M. Shailaja / Ms. Prashanthi, Faculty of DAA: Ms. Priyanka Chaumwal, Faculty of CCS: Mr. Naga Mallik, Faculty of CCS Lab: Mr. Naga Mallik / Ms. Priyanka / Ms. S. Mrudhula, Faculty of AD: Ms. Flora Ann Mathew, Faculty of PDS: Ms. D. Meenakshi, Faculty of Gen AI: Ms. Krushima, Faculty of Gen AI Lab: Ms. Krushima / Ms. R. Swarna Teja",
-        "input: 1st year DS - Omega faculty?",
-        "output: Faculty of PP: Dr. Ekta Maini, Faculty of UIWD: Mr. T. Krishnamurthy, Faculty of ACT: Mr. K. Srinivasa Rao, Faculty of ENG: Dr. Akhil Kumar, Faculty of M1: Dr. Imthiyaz Wani, Faculty of AP: Mr. A. Shiva Krishna",
-        "input: 1st year DS - Zeta faculty?",
-        "output: Faculty of PP: Dr. Ekta Maini, Faculty of UIWD: Ms. V. Nagahemakumari, Faculty of ACT: Mr. Vikram Kalvala, Faculty of ENG: Dr. Smitha, Faculty of M1: Dr. B. Seetharambabu, Faculty of AP: Dr. P. Ramana Reddy",
-        "input: 1st year DS - Sigma faculty?",
-        "output: Faculty of PP: Mr. V. Nitish, Faculty of UIWD: Dr. Menagadevi, Faculty of ACT: Mr. K. Vijay Krupa, Faculty of ENG: Dr. Zareena, Faculty of M1: Dr. Kushbu Singh, Faculty of AP: Dr. P. Ramana Reddy",
-        "input: 1st year DS - Delta faculty?",
-        "output: Faculty of PP: Mr. Mahesh, Faculty of UIWD: Mr. Krishnamurthy, Faculty of ACT: Dr. Jawahar, Faculty of ENG: Dr. Zareena, Faculty of M1: Dr. Khusbhu Singh, Faculty of AP: Dr. P. Srinivas",
-        "input: 1st year DS - Gamma faculty?",
-        "output: Faculty of PP: Dr. Vijay, Faculty of UIWD: Ms. Shiva, Faculty of ACT: Mr. Vijay Krupa, Faculty of ENG: Ms. Sadia, Faculty of M1: Ms. Lakshmi, Faculty of AP: Dr. Ashok",
-        "input: 1st year DS - Beta faculty?",
-        "output: Faculty of PP: Mr. Samuel Raju, Faculty of UIWD: Mr. Chalapathirao, Faculty of ACT: Mr. Joseph, Faculty of ENG: Ms. Sadia, Faculty of M1: Dr. Nidhi, Faculty of AP: Dr. Sampath",
-        "input: 1st year DS - Alpha faculty?",
-        "output: Faculty of PP: Mr. K. Mahesh Raj, Faculty of UIWD: Ms. Shebaa, Faculty of ACT: Dr. Jawahar, Faculty of ENG: Dr. Kalyan, Faculty of M1: Dr. Nidhi Humnekhar, Faculty of AP: Mr. J. Sashi Kumar"
+        # Additional example queries and responses...
     ]
     
     conversation_history.append(f"input: {user_input}")
@@ -70,11 +52,26 @@ def extract_names(text):
 
 # Function to get voice input
 def get_audio_input():
+    st.write("Press the record button to start speaking...")
+    # Recording settings
+    fs = 44100  # Sample rate
+    duration = 5  # seconds
+
+    # Record audio
+    audio_data = sd.rec(int(duration * fs), samplerate=fs, channels=1, dtype='int16')
+    sd.wait()  # Wait until recording is finished
+    audio_data = audio_data.flatten()
+
+    # Convert to bytes
+    audio_bytes = np.array(audio_data, dtype=np.int16).tobytes()
+
+    # Use speech recognition
     recognizer = sr.Recognizer()
-    with sr.Microphone() as source:
-        st.write("Listening...")
-        audio = recognizer.listen(source)
+    audio_file = sr.AudioFile(BytesIO(audio_bytes))
     
+    with audio_file as source:
+        audio = recognizer.record(source)
+
     try:
         st.write("Recognizing...")
         user_input = recognizer.recognize_google(audio)
@@ -174,7 +171,6 @@ elif speak_text:
         st.write(f"**Bot:** {response}")  # Display bot response
         speak_response(response)  # Speak the response
 
-
 # Display the response audio after each interaction
 with st.sidebar:
     st.markdown(
@@ -219,8 +215,6 @@ with st.sidebar:
         unsafe_allow_html=True
     )
 
-    
-
     st.markdown(
         """
         <div class='sidebar-content neon-background'>
@@ -231,15 +225,8 @@ with st.sidebar:
             <div class='social-icons'>
                 <a href='https://twitter.com/MusicalAnime1'><i class='fab fa-twitter'></i></a>
                 <a href='https://www.instagram.com/salauddin_20_/'><i class='fab fa-instagram'></i></a>
-                <a href='https://github.com/SALAUDDIN06'><i class='fab fa-github'></i></a>
-                <a href='https://www.linkedin.com/in/mohammed-salauddin-223804266/'><i class='fab fa-linkedin'></i></a>
-                <a href='https://accounts.snapchat.com/accounts/v2/login'><i class='fab fa-snapchat'></i></a>
-                <a href='https://hammerandchisel.zendesk.com/'><i class='fab fa-discord'></i></a>
-                <p style =color:pink>Developer: Md. Salauddin </p>
+                <a href='https://www.linkedin.com/in/salauddin-mohammed-93b7b2244/'><i class='fab fa-linkedin'></i></a>
             </div>
-            <style>
-                @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
-            </style>
         </div>
         """,
         unsafe_allow_html=True
