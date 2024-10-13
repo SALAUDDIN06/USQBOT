@@ -7,7 +7,7 @@ from io import BytesIO
 import re  
 
 # Set page title and configuration
-st.set_page_config(page_title="University Student Query-Bot", page_icon="🎓", layout="wide")
+st.set_page_config(page_title="University student Query-Bot", page_icon="🎓", layout="wide")
 
 # Set the API key in the environment variable
 os.environ["GOOGLE_API_KEY"] = "AIzaSyCR0gaNYWLJKAKwvKHQmbdeO5Za9CRC_j8"
