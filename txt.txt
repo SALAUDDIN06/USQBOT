@@ -1,0 +1,138 @@
+# Function to generate a response
+def generate_response(user_input):
+    conversation_history =[
+        "input: Malla Reddy University is loacted at?",
+        "output: It is loacted in the Hyderabad at misammaguda Medchal District",
+        "input: Who is the Vice chancellor?",
+        "output: V.S.K Reddy",
+        "input: Who is the chairman for Malla Reddy University ?",
+        "output: C.H Malla Reddy",
+        "input: Who is the Dean for Data Science Department ?",
+        "output: D.R Naveen Kumar",
+        "input: 3rd Year DS - faculty?",
+        "Output:Faculty of MLDS: Ms. M. Shailaja, Faculty of MLDS Lab: Ms. M. Shailaja / Ms. Prashanthi, Faculty of DAA: Ms. Priyanka Chaumwal, Faculty of CCS: Mr. Naga Mallik, Faculty of CCS Lab: Mr. Naga Mallik / Ms. Priyanka / Ms. S. Mrudhula, Faculty of AD: Ms. Flora Ann Mathew, Faculty of PDS: Ms. D. Meenakshi, Faculty of Gen AI: Ms. Krushima, Faculty of Gen AI Lab: Ms. Krushima / Ms. R. Swarna Teja",
+        "input : 1st year DS - Omega faculty?",
+        "output : Faculty of PP: Dr. Ekta Maini, Faculty of UIWD: Mr. T. Krishnamurthy, Faculty of ACT: Mr. K. Srinivasa Rao, Faculty of ENG: Dr. Akhil Kumar, Faculty of M1: Dr. Imthiyaz Wani, Faculty of AP: Mr. A. Shiva Krishna",
+        "input :1st year DS - Zeta faculty?",
+        "output: Faculty of PP: Dr. Ekta Maini, Faculty of UIWD: Ms. V. Nagahemakumari, Faculty of ACT: Mr. Vikram Kalvala, Faculty of ENG: Dr. Smitha, Faculty of M1: Dr. B. Seetharambabu, Faculty of AP: Dr. P. Ramana Reddy",
+        "input: 1st year DS - Sigma faculty?",
+        "output: Faculty of PP: Mr. V. Nitish, Faculty of UIWD: Dr. Menagadevi, Faculty of ACT: Mr. K. Vijay Krupa, Faculty of ENG: Dr. Zareena, Faculty of M1: Dr. Kushbu Singh, Faculty of AP: Dr. P. Ramana Reddy",
+        "input: 1st year DS - Delta faculty?",
+        "output: Faculty of PP: Mr. Mahesh, Faculty of UIWD: Mr. Krishnamurthy, Faculty of ACT: Dr. Jawahar, Faculty of ENG: Dr. Zareena, Faculty of M1: Dr. Khusbhu Singh, Faculty of AP: Dr. P. Srinivas",
+        "input: 1st year DS - Gamma faculty?",
+        "output: Faculty of PP: Dr. Vijay, Faculty of UIWD: Ms. Shiva, Faculty of ACT: Mr. Vijay Krupa, Faculty of ENG: Ms. Sadia, Faculty of M1: Ms. Lakshmi, Faculty of AP: Dr. Ashok",
+        "input: 1st year DS - Beta faculty?",
+        "output: Faculty of PP: Mr. Samuel Raju, Faculty of UIWD: Mr. Chalapathirao, Faculty of ACT: Mr. Joseph, Faculty of ENG: Ms. Sadia, Faculty of M1: Dr. Nidhi, Faculty of AP: Dr. Sampath",
+        "input: 1st year DS - Alpha faculty?",
+        "output: Faculty of PP: Mr. K. Mahesh Raj, Faculty of UIWD: Ms. Shebaa, Faculty of ACT: Dr. Jawahar, Faculty of ENG: Dr. Kalyan, Faculty of M1: Dr. Nidhi Humnekhar, Faculty of AP: Mr. J. Sashi Kumar "
+]
+
+
+
+with st.sidebar:
+    st.markdown(
+        """
+        <style>
+        .css-1d391kg {
+            background-color: #000; /* Black background */
+        }
+        img {
+            border-radius: 20%;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+        }
+        .sidebar-content {
+            color: white;
+            font-family: 'Roboto', sans-serif;
+        }
+        .neon-text {
+            color: #fff;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 15px #ff0000, 0 0 20px #ff0000, 0 0 25px #ff0000, 0 0 30px #ff0000, 0 0 35px #ff0000;
+        }
+        .neon-background {
+            padding: 10px;
+            background-color: #000;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .social-icons a {
+            color: #fff;
+            margin-right: 10px;
+            font-size: 24px;
+            text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+        }
+        .social-icons a:hover {
+            color: #ff0;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    
+
+    st.markdown(
+        """
+        <div class='sidebar-content neon-background'>
+            <h1 class='neon-text' style='font-size: 50px;'>About</h1>
+            <h3 style='font-size: 20px;'>
+                This application leverages the power of Google's Generative AI model to generate responses based on your input. 
+                Simply ask a question and see the results!
+            </h3>
+            <div class='social-icons'>
+                <a href='https://twitter.com/MusicalAnime1'><i class='fab fa-twitter'></i></a>
+                <a href='https://www.instagram.com/salauddin_20_/'><i class='fab fa-instagram'></i></a>
+                <a href='https://github.com/SALAUDDIN06'><i class='fab fa-github'></i></a>
+                <a href='https://www.linkedin.com/in/mohammed-salauddin-223804266/'><i class='fab fa-linkedin'></i></a>
+                <a href='https://accounts.snapchat.com/accounts/v2/login'><i class='fab fa-snapchat'></i></a>
+                <a href='https://hammerandchisel.zendesk.com/'><i class='fab fa-discord'></i></a>
+                <p>Developer: Md. Salauddin 2024</p>
+            </div>
+            <style>
+                @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+            </style>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+
+
+"""
+Install the Google AI Python SDK
+
+$ pip install google-generativeai
+"""
+
+import os
+import google.generativeai as genai
+
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+
+# Create the model
+generation_config = {
+  "temperature": 0,
+  "top_p": 0.95,
+  "top_k": 40,
+  "max_output_tokens": 8192,
+  "response_mime_type": "application/json",
+}
+
+model = genai.GenerativeModel(
+  model_name="gemini-1.5-pro-002",
+  generation_config=generation_config,
+  # safety_settings = Adjust safety settings
+  # See https://ai.google.dev/gemini-api/docs/safety-settings
+)
+
+response = model.generate_content([
+  "input: Malla Reddy University is located at?",
+  "output: It is located in Hyderabad at Misammaguda Medchal District\"",
+  "input: Malla Reddy University is located at?",
+  "output: ",
+])
+
