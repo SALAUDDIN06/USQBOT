@@ -8,8 +8,6 @@ import re
 
 # Set page title and configuration
 st.set_page_config(page_title="University student Query-Bot", page_icon="🎓", layout="wide")
-# Title
-st.title("🎓 University Student Query-Bot")
 
 # Set the API key in the environment variable
 os.environ["GOOGLE_API_KEY"] = "AIzaSyCR0gaNYWLJKAKwvKHQmbdeO5Za9CRC_j8"
@@ -144,15 +142,12 @@ if st.session_state.conversation_history:
         st.markdown(f"**Bot:** {convo['response']}")
 else:
     st.write("No previous conversations yet.")
-# Initialize session state for conversation history if not already done
-if 'conversation_history' not in st.session_state:
-    st.session_state.conversation_history = []
 
 # Create a text input for user prompt
 prompt = st.text_input("Type your message here...😊")  # Add a small emoji here
 
-# Create a column for the Submit button only
-col1 = st.columns(1)
+# Create a single column for the Submit button
+col1 = st.columns(1)[0]  # Access the first (and only) column
 
 # Submit button
 submit_text = col1.button("Submit", key="submit_button", help="Click to submit your text.")
@@ -171,10 +166,8 @@ if submit_text and prompt:
     st.markdown(f"**Bot:** {response}")
     
     # Optionally, speak the response if desired
-    # If you still want the functionality to speak the response, keep this line
     speak_response(response)  # Function to speak the bot's response
 
-# Note: Removed the audio input handling logic related to the speak button
 
 
 # Display the response audio after each interaction
