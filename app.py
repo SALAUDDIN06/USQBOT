@@ -171,7 +171,7 @@ if 'conversation_history' not in st.session_state:
 prompt = st.text_input("Type your message here...", "")
 
 # Button to get audio input
-if st.button("🎤 Speak"):
+if st.button("🎙️Speak"):
     user_input = get_audio_input()
 else:
     user_input = prompt
