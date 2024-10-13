@@ -148,7 +148,7 @@ if 'conversation_history' not in st.session_state:
     st.session_state.conversation_history = []
 
 # Create a text input for user prompt
-prompt = st.text_input("Type your message here... 😊")  # Add a small emoji here
+prompt = st.text_input("Type your message here...😊")  # Add a small emoji here
 
 # Create columns for buttons
 col1, col2 = st.columns([1, 1])
