@@ -121,12 +121,11 @@ st.markdown(
 )
 
 # Title
-html_content = """
-<div style="display: flex; align-items: center;">
-    <h1 style="color: White; font-weight: bold; text-transform: uppercase;">University Student Query-Bot</h1>
-</div>
-"""
-st.markdown(html_content, unsafe_allow_html=True)
+st.title("🎓 University Student Query-Bot")
+st.write("Ask me anything about the university!")
+st.write("You can ask about courses, facilities, events, or anything else related to the university")
+st.write("I'll do my best to help you!")
+
 
 # Store previous conversations in session state
 if 'conversation_history' not in st.session_state:
