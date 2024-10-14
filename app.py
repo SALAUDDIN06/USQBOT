@@ -5,13 +5,25 @@ import speech_recognition as sr
 from gtts import gTTS
 from io import BytesIO
 import re  
+from dotenv import load_dotenv
+
+def config():
+    load_dotenv()  # Load the .env file
+    return os.getenv('api_key')  # Fetch the API key from .env file
 
 # Set page title and configuration
-st.set_page_config(page_title="University student Query-Bot", page_icon="🎓", layout="wide")
+st.set_page_config(page_title="University Student Query-Bot", page_icon="🎓", layout="wide")
 
-# Set the API key in the environment variable
-os.environ["GOOGLE_API_KEY"] = "AIzaSyCR0gaNYWLJKAKwvKHQmbdeO5Za9CRC_j8"
-genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+# Fetch the API key using config function
+api_key = config()
+
+# Set the API key in the environment variable and configure Google Generative AI
+if api_key:
+    os.environ["GOOGLE_API_KEY"] = api_key
+    genai.configure(api_key=api_key)  # Configure Google Generative AI with the API key
+else:
+    st.error("API Key not found! Please ensure it's set in the .env file.")
+
 
 # Generation configuration for the chatbot
 generation_config = {
