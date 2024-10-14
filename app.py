@@ -1,4 +1,3 @@
-import os
 import streamlit as st
 import google.generativeai as genai
 import speech_recognition as sr
@@ -6,6 +5,7 @@ from gtts import gTTS
 from io import BytesIO
 import re  
 from dotenv import load_dotenv
+import os
 
 def config():
     load_dotenv()  # Load the .env file
