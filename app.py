@@ -225,9 +225,6 @@ with st.sidebar:
         """,
         unsafe_allow_html=True
     )
-
-    
-
     st.markdown(
         """
         <div class='sidebar-content neon-background'>
