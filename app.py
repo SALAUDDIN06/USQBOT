@@ -9,7 +9,10 @@ import os
 
 def config():
     load_dotenv()  # Load the .env file
-    return os.getenv('api_key')  # Fetch the API key from .env file
+    api_key = os.getenv('api_key')  # Fetch the API key from .env file
+    if not api_key:
+        st.error("API Key not found! Please ensure it's set in the .env file.")
+    return api_key
 
 # Set page title and configuration
 st.set_page_config(page_title="University Student Query-Bot", page_icon="🎓", layout="wide")
@@ -17,13 +20,19 @@ st.set_page_config(page_title="University Student Query-Bot", page_icon="🎓", 
 # Fetch the API key using config function
 api_key = config()
 
-# Set the API key in the environment variable and configure Google Generative AI
+# Debug: Check if the API key is retrieved
 if api_key:
+    # Set the API key in the environment variable and configure Google Generative AI
     os.environ["GOOGLE_API_KEY"] = api_key
-    genai.configure(api_key=api_key)  # Configure Google Generative AI with the API key
-else:
-    st.error("API Key not found! Please ensure it's set in the .env file.")
 
+    # Configure Google Generative AI with the API key
+    try:
+        genai.configure(api_key=api_key)
+        st.success(" AI configured successfully!")
+    except Exception as e:
+        st.error(f"Failed to configure Google Generative AI: {e}")
+else:
+    st.error("No API key found. Please check your .env file.")
 
 # Generation configuration for the chatbot
 generation_config = {
@@ -41,20 +50,20 @@ model = genai.GenerativeModel(
 
 # Function to generate a response
 def generate_response(user_input):
-    conversation_history = [
-        "input: Malla Reddy University is located at?",
-        "output: It is located in Hyderabad at Maisammaguda, Medchal District.",
-        "input: Who is the Vice Chancellor?",
+    conversation_history =[
+        "input: Malla Reddy University is loacted at?",
+        "output: It is loacted in the Hyderabad at misammaguda Medchal District",
+        "input: Who is the Vice chancellor?",
         "output: V.S.K Reddy",
-        "input: Who is the chairman for Malla Reddy University?",
+        "input: Who is the chairman for Malla Reddy University ?",
         "output: C.H Malla Reddy",
-        "input: Who is the Dean for the Data Science Department?",
+        "input: Who is the Dean for Data Science Department ?",
         "output: D.R Naveen Kumar",
         "input: 3rd Year DS - faculty?",
-        "output: Faculty of MLDS: Ms. M. Shailaja, Faculty of MLDS Lab: Ms. M. Shailaja / Ms. Prashanthi, Faculty of DAA: Ms. Priyanka Chaumwal, Faculty of CCS: Mr. Naga Mallik, Faculty of CCS Lab: Mr. Naga Mallik / Ms. Priyanka / Ms. S. Mrudhula, Faculty of AD: Ms. Flora Ann Mathew, Faculty of PDS: Ms. D. Meenakshi, Faculty of Gen AI: Ms. Krushima, Faculty of Gen AI Lab: Ms. Krushima / Ms. R. Swarna Teja",
-        "input: 1st year DS - Omega faculty?",
-        "output: Faculty of PP: Dr. Ekta Maini, Faculty of UIWD: Mr. T. Krishnamurthy, Faculty of ACT: Mr. K. Srinivasa Rao, Faculty of ENG: Dr. Akhil Kumar, Faculty of M1: Dr. Imthiyaz Wani, Faculty of AP: Mr. A. Shiva Krishna",
-        "input: 1st year DS - Zeta faculty?",
+        "Output:Faculty of MLDS: Ms. M. Shailaja, Faculty of MLDS Lab: Ms. M. Shailaja / Ms. Prashanthi, Faculty of DAA: Ms. Priyanka Chaumwal, Faculty of CCS: Mr. Naga Mallik, Faculty of CCS Lab: Mr. Naga Mallik / Ms. Priyanka / Ms. S. Mrudhula, Faculty of AD: Ms. Flora Ann Mathew, Faculty of PDS: Ms. D. Meenakshi, Faculty of Gen AI: Ms. Krushima, Faculty of Gen AI Lab: Ms. Krushima / Ms. R. Swarna Teja",
+        "input : 1st year DS - Omega faculty?",
+        "output : Faculty of PP: Dr. Ekta Maini, Faculty of UIWD: Mr. T. Krishnamurthy, Faculty of ACT: Mr. K. Srinivasa Rao, Faculty of ENG: Dr. Akhil Kumar, Faculty of M1: Dr. Imthiyaz Wani, Faculty of AP: Mr. A. Shiva Krishna",
+        "input :1st year DS - Zeta faculty?",
         "output: Faculty of PP: Dr. Ekta Maini, Faculty of UIWD: Ms. V. Nagahemakumari, Faculty of ACT: Mr. Vikram Kalvala, Faculty of ENG: Dr. Smitha, Faculty of M1: Dr. B. Seetharambabu, Faculty of AP: Dr. P. Ramana Reddy",
         "input: 1st year DS - Sigma faculty?",
         "output: Faculty of PP: Mr. V. Nitish, Faculty of UIWD: Dr. Menagadevi, Faculty of ACT: Mr. K. Vijay Krupa, Faculty of ENG: Dr. Zareena, Faculty of M1: Dr. Kushbu Singh, Faculty of AP: Dr. P. Ramana Reddy",
@@ -65,8 +74,8 @@ def generate_response(user_input):
         "input: 1st year DS - Beta faculty?",
         "output: Faculty of PP: Mr. Samuel Raju, Faculty of UIWD: Mr. Chalapathirao, Faculty of ACT: Mr. Joseph, Faculty of ENG: Ms. Sadia, Faculty of M1: Dr. Nidhi, Faculty of AP: Dr. Sampath",
         "input: 1st year DS - Alpha faculty?",
-        "output: Faculty of PP: Mr. K. Mahesh Raj, Faculty of UIWD: Ms. Shebaa, Faculty of ACT: Dr. Jawahar, Faculty of ENG: Dr. Kalyan, Faculty of M1: Dr. Nidhi Humnekhar, Faculty of AP: Mr. J. Sashi Kumar"
-    ]
+        "output: Faculty of PP: Mr. K. Mahesh Raj, Faculty of UIWD: Ms. Shebaa, Faculty of ACT: Dr. Jawahar, Faculty of ENG: Dr. Kalyan, Faculty of M1: Dr. Nidhi Humnekhar, Faculty of AP: Mr. J. Sashi Kumar "
+]
     
     conversation_history.append(f"input: {user_input}")
     conversation_history.append("output: ")
@@ -124,10 +133,6 @@ st.markdown(
             filter: brightness(80%) drop-shadow(0 0 20px #f0f) drop-shadow(0 0 30px #0ff);
         }
     }
-    .input-container {
-        display: flex;
-        align-items: center;
-    }
     </style>
     """, unsafe_allow_html=True
 )
@@ -135,9 +140,6 @@ st.markdown(
 # Title
 st.title("🎓 University Student Query-Bot")
 st.write("Ask me anything about the university!")
-st.write("You can ask about courses, facilities, events, or anything else related to the university")
-st.write("I'll do my best to help you!")
-
 
 # Store previous conversations in session state
 if 'conversation_history' not in st.session_state:
@@ -156,13 +158,10 @@ else:
     st.write("No previous conversations yet.")
 
 # Create a text input for user prompt
-prompt = st.text_input("Type your message here...😊")  # Add a small emoji here
-
-# Create a single column for the Submit button
-col1 = st.columns(1)[0]  # Access the first (and only) column
+prompt = st.text_input("Type your message here...")
 
 # Submit button
-submit_text = col1.button("Submit", key="submit_button", help="Click to submit your text.")
+submit_text = st.button("Submit")
 
 # Handle the submit button for text input
 if submit_text and prompt:
@@ -177,10 +176,17 @@ if submit_text and prompt:
     st.markdown(f"**You:** {prompt}")
     st.markdown(f"**Bot:** {response}")
     
-    # Optionally, speak the response if desired
-    speak_response(response)  # Function to speak the bot's response
+    # Optionally, speak the response
+    speak_response(response)
 
-
+# Example for speech-to-text (optional)
+if st.button("🎙️speak"):
+    user_input = get_audio_input()
+    if user_input:
+        response = generate_response(user_input)
+        st.markdown(f"**You:** {user_input}")
+        st.markdown(f"**Bot:** {response}")
+        speak_response(response)
 
 # Display the response audio after each interaction
 with st.sidebar:
