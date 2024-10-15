@@ -7,32 +7,30 @@ import re
 from dotenv import load_dotenv
 import os
 
-def config():
-    load_dotenv()  # Load the .env file
-    api_key = os.getenv('api_key')  # Fetch the API key from .env file
-    if not api_key:
-        st.error("API Key not found! Please ensure it's set in the .env file.")
-    return api_key
+import os
+import streamlit as st
+import genai
 
 # Set page title and configuration
 st.set_page_config(page_title="University Student Query-Bot", page_icon="🎓", layout="wide")
 
-# Fetch the API key using config function
-api_key = config()
+# Set the API key directly
+api_key = "AIzaSyCR0gaNYWLJKAKwvKHQmbdeO5Za9CRC_j8"
 
-# Debug: Check if the API key is retrieved
+# Debug: Check if the API key is set
 if api_key:
-    # Set the API key in the environment variable and configure Google Generative AI
+    # Set the API key in the environment variable
     os.environ["GOOGLE_API_KEY"] = api_key
 
     # Configure Google Generative AI with the API key
     try:
         genai.configure(api_key=api_key)
-        st.success(" AI configured successfully!")
+        st.success("AI configured successfully!")
     except Exception as e:
         st.error(f"Failed to configure Google Generative AI: {e}")
 else:
-    st.error("No API key found. Please check your .env file.")
+    st.error("API key not set. Please provide a valid API key.")
+
 
 # Generation configuration for the chatbot
 generation_config = {
