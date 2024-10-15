@@ -23,7 +23,6 @@ if api_key:
     # Configure Google Generative AI with the API key
     try:
         genai.configure(api_key=api_key)
-        st.success("AI configured successfully!")
     except Exception as e:
         st.error(f"Failed to configure : {e}")
 else:
