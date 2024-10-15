@@ -6,7 +6,6 @@ from io import BytesIO
 import re  
 from dotenv import load_dotenv
 import os
-import pyaudio
 
 
 # Set page title and configuration
