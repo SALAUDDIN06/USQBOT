@@ -7,9 +7,6 @@ import re
 from dotenv import load_dotenv
 import os
 
-import os
-import streamlit as st
-import genai
 
 # Set page title and configuration
 st.set_page_config(page_title="University Student Query-Bot", page_icon="🎓", layout="wide")
