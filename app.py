@@ -8,14 +8,12 @@ from dotenv import load_dotenv
 import os
 
 
-# Load environment variables from .env file
-load_dotenv()
 
 # Set page title and configuration
 st.set_page_config(page_title="University Student Query-Bot", page_icon="🎓", layout="wide")
 
-# Get the API key from the environment variable
-api_key = os.getenv("API_KEY")
+# Set the API key directly
+api_key = "AIzaSyCR0gaNYWLJKAKwvKHQmbdeO5Za9CRC_j8"
 
 # Debug: Check if the API key is set
 if api_key:
