@@ -50,6 +50,14 @@ def generate_response(user_input):
         "output: It is loacted in the Hyderabad at misammaguda Medchal District",
         "input: Who is the Vice chancellor?",
         "output: V.S.K Reddy",
+        "input: Who is the Registrar of Malla reddy university?",
+        "output: Dr. M Anjaneyulu",
+        "input: Who is the Chancellor  of Malla reddy university?",
+        "output: Smt. Ch Kalpana",
+        "input: Who is the placement cell incharge  of Malla reddy university?",
+        "output:Prof. KODUKULA KAILASA RAO",
+        "input: Who is the School of engineering(SOE) Dean of Malla reddy university?",
+        "output:Prof. KODUKULA KAILASA RAO",
         "input: Who is the chairman for Malla Reddy University ?",
         "output: C.H Malla Reddy",
         "input: Who is the Dean for Data Science Department ?",
@@ -69,7 +77,13 @@ def generate_response(user_input):
         "input: 1st year DS - Beta faculty?",
         "output: Faculty of PP: Mr. Samuel Raju, Faculty of UIWD: Mr. Chalapathirao, Faculty of ACT: Mr. Joseph, Faculty of ENG: Ms. Sadia, Faculty of M1: Dr. Nidhi, Faculty of AP: Dr. Sampath",
         "input: 1st year DS - Alpha faculty?",
-        "output: Faculty of PP: Mr. K. Mahesh Raj, Faculty of UIWD: Ms. Shebaa, Faculty of ACT: Dr. Jawahar, Faculty of ENG: Dr. Kalyan, Faculty of M1: Dr. Nidhi Humnekhar, Faculty of AP: Mr. J. Sashi Kumar "
+        "output: Faculty of PP: Mr. K. Mahesh Raj, Faculty of UIWD: Ms. Shebaa, Faculty of ACT: Dr. Jawahar, Faculty of ENG: Dr. Kalyan, Faculty of M1: Dr. Nidhi Humnekhar, Faculty of AP: Mr. J. Sashi Kumar " ,
+        "input: Who are the faculty members of the 2nd year CSE?",
+         "output:Data Structures through java(Dr. B.Jogeshwarao,Mr.G.Ganesh) , Database Management System(Dr.P.Archana,Mrs.K.Manasa) , Discrete Mathematics(Mr.P.Chandramohan,Dr.G.venkata Suman), Computer Networks(Dr.Nanda Kishore Kumar, Mr.M.Goutam), Object Oriented Software Engineering(Ms.I.swapna, Mr.T.Srajan Kumar), Data Visualization(Mr.G.Ganesh,Ms.J.Devi Priya), Indian Heritage and Economy(Mr.V.Ravichandra Shekar)",
+         "input : Who is the Dean of CSE?",
+         "output : shaik meeravalli",
+         "input: Who are the faculty of 3rd year CSE?",
+         "output: Artificial Intelligence and Machine Learing(Mrs.Sagarika,Mr.Naveen Kumar), Internet Of Things(Dr.T.Pandindra,Mr.G.Kishore Kumar), Compiler Design(Mrs.Preethi Reddy,Mrs.Shilpa), Agile Software Development(Mrs.S.Sowmya), Distributed Operating System(Mr.G.Raju), Salesforce Platform Developer(Dr.Arunsingh Chouhan,Dr.Shaik Hussian), Human Resource Management(Dr.Nazia,Mrs.K.Sudha), Artificial Intelligence and Machine Learing Lab(Mr.Naveen Kumar, Mr.Joshi), Internet Of Things Lab(Dr.T.Panindra,Mr.P.Prudhi Prasad), Salesforce Platform Developer Lab(Dr.Arun Singh Chouhan,Ms.G.Nandhini), App Devolopment - IOT and Machinelearning Explore(Mrs.Preethi Reddy,Mrs.Sowmya) Proffesional Development Skills(Mrs.K.Sudha, Mr.G.Mohanram)"
 ]
     
     conversation_history.append(f"input: {user_input}")
