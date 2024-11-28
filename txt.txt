@@ -5,6 +5,14 @@ def generate_response(user_input):
         "output: It is loacted in the Hyderabad at misammaguda Medchal District",
         "input: Who is the Vice chancellor?",
         "output: V.S.K Reddy",
+        "input: Who is the Registrar of Malla reddy university?",
+        "output: Dr. M Anjaneyulu",
+        "input: Who is the Chancellor  of Malla reddy university?",
+        "output: Smt. Ch Kalpana",
+        "input: Who is the placement cell incharge  of Malla reddy university?",
+        "output:Prof. KODUKULA KAILASA RAO",
+        "input: Who is the School of engineering(SOE) Dean of Malla reddy university?",
+        "output:Prof. KODUKULA KAILASA RAO",
         "input: Who is the chairman for Malla Reddy University ?",
         "output: C.H Malla Reddy",
         "input: Who is the Dean for Data Science Department ?",
@@ -24,115 +32,11 @@ def generate_response(user_input):
         "input: 1st year DS - Beta faculty?",
         "output: Faculty of PP: Mr. Samuel Raju, Faculty of UIWD: Mr. Chalapathirao, Faculty of ACT: Mr. Joseph, Faculty of ENG: Ms. Sadia, Faculty of M1: Dr. Nidhi, Faculty of AP: Dr. Sampath",
         "input: 1st year DS - Alpha faculty?",
-        "output: Faculty of PP: Mr. K. Mahesh Raj, Faculty of UIWD: Ms. Shebaa, Faculty of ACT: Dr. Jawahar, Faculty of ENG: Dr. Kalyan, Faculty of M1: Dr. Nidhi Humnekhar, Faculty of AP: Mr. J. Sashi Kumar "
+        "output: Faculty of PP: Mr. K. Mahesh Raj, Faculty of UIWD: Ms. Shebaa, Faculty of ACT: Dr. Jawahar, Faculty of ENG: Dr. Kalyan, Faculty of M1: Dr. Nidhi Humnekhar, Faculty of AP: Mr. J. Sashi Kumar " ,
+        "input: Who are the faculty members of the 2nd year CSE?",
+         "output:Data Structures through java(Dr. B.Jogeshwarao,Mr.G.Ganesh) , Database Management System(Dr.P.Archana,Mrs.K.Manasa) , Discrete Mathematics(Mr.P.Chandramohan,Dr.G.venkata Suman), Computer Networks(Dr.Nanda Kishore Kumar, Mr.M.Goutam), Object Oriented Software Engineering(Ms.I.swapna, Mr.T.Srajan Kumar), Data Visualization(Mr.G.Ganesh,Ms.J.Devi Priya), Indian Heritage and Economy(Mr.V.Ravichandra Shekar)",
+         "input : Who is the Dean of CSE?",
+         "output : shaik meeravalli",
+         "input: Who are the faculty of 3rd year CSE?",
+         "output: Artificial Intelligence and Machine Learing(Mrs.Sagarika,Mr.Naveen Kumar), Internet Of Things(Dr.T.Pandindra,Mr.G.Kishore Kumar), Compiler Design(Mrs.Preethi Reddy,Mrs.Shilpa), Agile Software Development(Mrs.S.Sowmya), Distributed Operating System(Mr.G.Raju), Salesforce Platform Developer(Dr.Arunsingh Chouhan,Dr.Shaik Hussian), Human Resource Management(Dr.Nazia,Mrs.K.Sudha), Artificial Intelligence and Machine Learing Lab(Mr.Naveen Kumar, Mr.Joshi), Internet Of Things Lab(Dr.T.Panindra,Mr.P.Prudhi Prasad), Salesforce Platform Developer Lab(Dr.Arun Singh Chouhan,Ms.G.Nandhini), App Devolopment - IOT and Machinelearning Explore(Mrs.Preethi Reddy,Mrs.Sowmya) Proffesional Development Skills(Mrs.K.Sudha, Mr.G.Mohanram)"
 ]
-
-
-
-with st.sidebar:
-    st.markdown(
-        """
-        <style>
-        .css-1d391kg {
-            background-color: #000; /* Black background */
-        }
-        img {
-            border-radius: 20%;
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-        }
-        .sidebar-content {
-            color: white;
-            font-family: 'Roboto', sans-serif;
-        }
-        .neon-text {
-            color: #fff;
-            font-weight: bold;
-            text-transform: uppercase;
-            text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 15px #ff0000, 0 0 20px #ff0000, 0 0 25px #ff0000, 0 0 30px #ff0000, 0 0 35px #ff0000;
-        }
-        .neon-background {
-            padding: 10px;
-            background-color: #000;
-            border-radius: 10px;
-            color: #fff;
-        }
-        .social-icons a {
-            color: #fff;
-            margin-right: 10px;
-            font-size: 24px;
-            text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
-        }
-        .social-icons a:hover {
-            color: #ff0;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-    
-
-    st.markdown(
-        """
-        <div class='sidebar-content neon-background'>
-            <h1 class='neon-text' style='font-size: 50px;'>About</h1>
-            <h3 style='font-size: 20px;'>
-                This application leverages the power of Google's Generative AI model to generate responses based on your input. 
-                Simply ask a question and see the results!
-            </h3>
-            <div class='social-icons'>
-                <a href='https://twitter.com/MusicalAnime1'><i class='fab fa-twitter'></i></a>
-                <a href='https://www.instagram.com/salauddin_20_/'><i class='fab fa-instagram'></i></a>
-                <a href='https://github.com/SALAUDDIN06'><i class='fab fa-github'></i></a>
-                <a href='https://www.linkedin.com/in/mohammed-salauddin-223804266/'><i class='fab fa-linkedin'></i></a>
-                <a href='https://accounts.snapchat.com/accounts/v2/login'><i class='fab fa-snapchat'></i></a>
-                <a href='https://hammerandchisel.zendesk.com/'><i class='fab fa-discord'></i></a>
-                <p>Developer: Md. Salauddin 2024</p>
-            </div>
-            <style>
-                @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
-            </style>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-
-
-
-"""
-Install the Google AI Python SDK
-
-$ pip install google-generativeai
-"""
-
-import os
-import google.generativeai as genai
-
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-
-# Create the model
-generation_config = {
-  "temperature": 0,
-  "top_p": 0.95,
-  "top_k": 40,
-  "max_output_tokens": 8192,
-  "response_mime_type": "application/json",
-}
-
-model = genai.GenerativeModel(
-  model_name="gemini-1.5-pro-002",
-  generation_config=generation_config,
-  # safety_settings = Adjust safety settings
-  # See https://ai.google.dev/gemini-api/docs/safety-settings
-)
-
-response = model.generate_content([
-  "input: Malla Reddy University is located at?",
-  "output: It is located in Hyderabad at Misammaguda Medchal District\"",
-  "input: Malla Reddy University is located at?",
-  "output: ",
-])
-

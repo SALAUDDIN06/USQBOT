@@ -8,25 +8,22 @@ from dotenv import load_dotenv
 import os
 
 
-# Set page title and configuration
+
+# Set page configuration
 st.set_page_config(page_title="University Student Query-Bot", page_icon="🎓", layout="wide")
 
 # Set the API key directly
-api_key = "AIzaSyCR0gaNYWLJKAKwvKHQmbdeO5Za9CRC_j8" 
+api_key = "AIzaSyCaW6HVTLjE-5jDPKXEJePekbfHdc0xngU"
 
 # Debug: Check if the API key is set
 if api_key:
-    # Set the API key in the environment variable
-    os.environ["GOOGLE_API_KEY"] = api_key
-
-    # Configure Google Generative AI with the API key
+    os.environ["GOOGLE_API_KEY"] = api_key  # Set the API key in the environment variable
     try:
-        genai.configure(api_key=api_key)
+        genai.configure(api_key=api_key)  # Configure Google Generative AI
     except Exception as e:
-        st.error(f"Failed to configure : {e}")
+        st.error(f"Failed to configure Google Generative AI: {e}")
 else:
     st.error("API key not set. Please provide a valid API key.")
-
 
 # Generation configuration for the chatbot
 generation_config = {
@@ -38,9 +35,10 @@ generation_config = {
 }
 
 model = genai.GenerativeModel(
-    model_name="gemini-1.5-pro",
+    model_name="gemini-1.5-pro", 
     generation_config=generation_config,
 )
+
 
 # Function to generate a response
 def generate_response(user_input):
@@ -78,52 +76,55 @@ def generate_response(user_input):
         "input: 1st year DS - Alpha faculty?",
         "output: Faculty of PP: Mr. K. Mahesh Raj, Faculty of UIWD: Ms. Shebaa, Faculty of ACT: Dr. Jawahar, Faculty of ENG: Dr. Kalyan, Faculty of M1: Dr. Nidhi Humnekhar, Faculty of AP: Mr. J. Sashi Kumar " ,
         "input: Who are the faculty members of the 2nd year CSE?",
-         "output:Data Structures through java(Dr. B.Jogeshwarao,Mr.G.Ganesh) , Database Management System(Dr.P.Archana,Mrs.K.Manasa) , Discrete Mathematics(Mr.P.Chandramohan,Dr.G.venkata Suman), Computer Networks(Dr.Nanda Kishore Kumar, Mr.M.Goutam), Object Oriented Software Engineering(Ms.I.swapna, Mr.T.Srajan Kumar), Data Visualization(Mr.G.Ganesh,Ms.J.Devi Priya), Indian Heritage and Economy(Mr.V.Ravichandra Shekar)",
-         "input : Who is the Dean of CSE?",
-         "output : shaik meeravalli",
-         "input: Who are the faculty of 3rd year CSE?",
-         "output: Artificial Intelligence and Machine Learing(Mrs.Sagarika,Mr.Naveen Kumar), Internet Of Things(Dr.T.Pandindra,Mr.G.Kishore Kumar), Compiler Design(Mrs.Preethi Reddy,Mrs.Shilpa), Agile Software Development(Mrs.S.Sowmya), Distributed Operating System(Mr.G.Raju), Salesforce Platform Developer(Dr.Arunsingh Chouhan,Dr.Shaik Hussian), Human Resource Management(Dr.Nazia,Mrs.K.Sudha), Artificial Intelligence and Machine Learing Lab(Mr.Naveen Kumar, Mr.Joshi), Internet Of Things Lab(Dr.T.Panindra,Mr.P.Prudhi Prasad), Salesforce Platform Developer Lab(Dr.Arun Singh Chouhan,Ms.G.Nandhini), App Devolopment - IOT and Machinelearning Explore(Mrs.Preethi Reddy,Mrs.Sowmya) Proffesional Development Skills(Mrs.K.Sudha, Mr.G.Mohanram)"
+        "output:Data Structures through java(Dr. B.Jogeshwarao,Mr.G.Ganesh) , Database Management System(Dr.P.Archana,Mrs.K.Manasa) , Discrete Mathematics(Mr.P.Chandramohan,Dr.G.venkata Suman), Computer Networks(Dr.Nanda Kishore Kumar, Mr.M.Goutam), Object Oriented Software Engineering(Ms.I.swapna, Mr.T.Srajan Kumar), Data Visualization(Mr.G.Ganesh,Ms.J.Devi Priya), Indian Heritage and Economy(Mr.V.Ravichandra Shekar)",
+        "input : Who is the Dean of CSE?",
+        "output : shaik meeravalli",
+        "input: Who are the faculty of 3rd year CSE?",
+        "output: Artificial Intelligence and Machine Learing(Mrs.Sagarika,Mr.Naveen Kumar), Internet Of Things(Dr.T.Pandindra,Mr.G.Kishore Kumar), Compiler Design(Mrs.Preethi Reddy,Mrs.Shilpa), Agile Software Development(Mrs.S.Sowmya), Distributed Operating System(Mr.G.Raju), Salesforce Platform Developer(Dr.Arunsingh Chouhan,Dr.Shaik Hussian), Human Resource Management(Dr.Nazia,Mrs.K.Sudha), Artificial Intelligence and Machine Learing Lab(Mr.Naveen Kumar, Mr.Joshi), Internet Of Things Lab(Dr.T.Panindra,Mr.P.Prudhi Prasad), Salesforce Platform Developer Lab(Dr.Arun Singh Chouhan,Ms.G.Nandhini), App Devolopment - IOT and Machinelearning Explore(Mrs.Preethi Reddy,Mrs.Sowmya) Proffesional Development Skills(Mrs.K.Sudha, Mr.G.Mohanram)"
 ]
     
     conversation_history.append(f"input: {user_input}")
     conversation_history.append("output: ")
 
-    response = model.generate_content(conversation_history)
-    return response.text.strip()
+    try:
+        response = model.generate_content(conversation_history)
+        return response.text.strip()
+    except Exception as e:
+        return f"Error generating response: {e}"
 
 # Function to extract names from the response
 def extract_names(text):
     cleaned_text = re.sub(r"[^a-zA-Z0-9\s,.\-]", "", text)
-    names = re.findall(r"(Mr\.?|Ms\.?|Dr\.?|Prof\.?)(\s?[A-Z][a-zA-Z]+\s?[A-Z]?[a-zA-Z]*)+", cleaned_text)
-    return [f"{title} {name.strip()}" for title, name in names]
+    names = re.findall(r"(Mr\.?|Ms\.?|Dr\.?|Prof\.?)\s?[A-Z][a-zA-Z]+(?:\s[A-Z][a-zA-Z]+)?", cleaned_text)
+    return names
 
 # Function to get voice input
 def get_audio_input():
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
         st.write("Listening...")
-        audio = recognizer.listen(source)
-    
-    try:
-        st.write("Recognizing...")
-        user_input = recognizer.recognize_google(audio)
-        st.write(f"Recognized Text: {user_input}")
-        return user_input
-    except sr.UnknownValueError:
-        st.write("Sorry, I could not understand the audio.")
-        return ""
-    except sr.RequestError:
-        st.write("Error with the Google API.")
-        return ""
+        try:
+            audio = recognizer.listen(source)
+            st.write("Recognizing...")
+            user_input = recognizer.recognize_google(audio)
+            st.write(f"Recognized Text: {user_input}")
+            return user_input
+        except sr.UnknownValueError:
+            st.error("Sorry, I could not understand the audio.")
+        except sr.RequestError:
+            st.error("Error with the Google API.")
+    return ""
 
 # Function for text-to-speech response
 def speak_response(response_text):
-    tts = gTTS(response_text)
-    audio_file = BytesIO()
-    tts.write_to_fp(audio_file)
-    audio_file.seek(0)
-
-    st.audio(audio_file, format="audio/mp3")
+    try:
+        tts = gTTS(response_text)
+        audio_file = BytesIO()
+        tts.write_to_fp(audio_file)
+        audio_file.seek(0)
+        st.audio(audio_file, format="audio/mp3")
+    except Exception as e:
+        st.error(f"Error in text-to-speech conversion: {e}")
 
 # UI layout and styles
 st.markdown(
@@ -156,8 +157,7 @@ if 'conversation_history' not in st.session_state:
 # Display previous conversations
 st.write("#### Previous Conversations")
 if st.session_state.conversation_history:
-    clear_history = st.button("✕ Clear History")
-    if clear_history:
+    if st.button("✕ Clear History"):
         st.session_state.conversation_history = []
     for convo in st.session_state.conversation_history:
         st.markdown(f"**You:** {convo['prompt']}")
@@ -169,11 +169,8 @@ else:
 prompt = st.text_input("Type your message here...")
 
 # Submit button
-submit_text = st.button("Submit")
-
-# Handle the submit button for text input
-if submit_text and prompt:
-    response = generate_response(prompt)  # Function to generate the bot's response
+if st.button("Submit") and prompt:
+    response = generate_response(prompt)
     st.session_state.conversation_history.append({"prompt": prompt, "response": response})
     
     # Extract names from the response and display them
@@ -184,11 +181,11 @@ if submit_text and prompt:
     st.markdown(f"**You:** {prompt}")
     st.markdown(f"**Bot:** {response}")
     
-    # Optionally, speak the response
+    # Speak the response
     speak_response(response)
 
 # Example for speech-to-text (optional)
-if st.button("🎙️speak"):
+if st.button("🎙️ Speak"):
     user_input = get_audio_input()
     if user_input:
         response = generate_response(user_input)
