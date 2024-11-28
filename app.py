@@ -8,12 +8,11 @@ from dotenv import load_dotenv
 import os
 
 
-
 # Set page title and configuration
 st.set_page_config(page_title="University Student Query-Bot", page_icon="🎓", layout="wide")
 
 # Set the API key directly
-api_key = "AIzaSyCR0gaNYWLJKAKwvKHQmbdeO5Za9CRC_j8"
+api_key = "AIzaSyCR0gaNYWLJKAKwvKHQmbdeO5Za9CRC_j8" 
 
 # Debug: Check if the API key is set
 if api_key:
