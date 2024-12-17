@@ -13,7 +13,7 @@ import os
 st.set_page_config(page_title="University Student Query-Bot", page_icon="🎓", layout="wide")
 
 # Set the API key directly
-api_key = "AIzaSyCaW6HVTLjE-5jDPKXEJePekbfHdc0xngU"
+api_key = "AIzaSyCR0gaNYWLJKAKwvKHQmbdeO5Za9CRC_j8"
 
 # Debug: Check if the API key is set
 if api_key:
@@ -184,14 +184,6 @@ if st.button("Submit") and prompt:
     # Speak the response
     speak_response(response)
 
-# Example for speech-to-text (optional)
-if st.button("🎙️ Speak"):
-    user_input = get_audio_input()
-    if user_input:
-        response = generate_response(user_input)
-        st.markdown(f"**You:** {user_input}")
-        st.markdown(f"**Bot:** {response}")
-        speak_response(response)
 
 # Display the response audio after each interaction
 with st.sidebar:
