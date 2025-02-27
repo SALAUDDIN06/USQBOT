@@ -12,9 +12,10 @@ import os
 # Set page configuration
 st.set_page_config(page_title="University Student Query-Bot", page_icon="🎓", layout="wide")
 
-# Set the API key directly
-api_key = "AIzaSyCR0gaNYWLJKAKwvKHQmbdeO5Za9CRC_j8"
-
+# Load environment variables from .env file
+load_dotenv()
+# Retrieve the API key
+api_key = os.getenv("GOOGLE_API_KEY")
 # Debug: Check if the API key is set
 if api_key:
     os.environ["GOOGLE_API_KEY"] = api_key  # Set the API key in the environment variable
